@@ -83,6 +83,22 @@ The following items should be installed in your system:
 
     Visit [http://localhost:8080](http://localhost:8080) in your browser.
 
+### Docker
+
+```shell
+sudo service docker restart
+docker build -t petclinic-native .
+docker run -d -p 8082:8080 petclinic-native
+```
+
+See result on http://localhost:8082/
+
+```shell
+docker tag petclinic-native:latest nabla/petclinic-native
+docker push nabla/petclinic-native:latest
+```
+
+See result on https://hub.docker.com/repository/docker/nabla/petclinic-native
 
 ## Looking for something in particular?
 

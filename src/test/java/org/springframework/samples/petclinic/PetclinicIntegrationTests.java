@@ -16,10 +16,18 @@
 
 package org.springframework.samples.petclinic;
 
+import javax.validation.constraints.AssertTrue;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.vet.VetRepository;
+import org.springframework.util.Assert;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.vet.Vet;
 
 @SpringBootTest
 class PetclinicIntegrationTests {
@@ -31,6 +39,17 @@ class PetclinicIntegrationTests {
 	void testFindAll() throws Exception {
 		vets.findAll();
 		vets.findAll(); // served from cache
+	}
+
+	@Test
+	void testFind5000() throws Exception {
+
+		// First page of vet -- 5000 results per page
+		PageRequest pageRequest = PageRequest.of(0, 5000);
+
+		Page<Vet> recordList = vets.findAll(pageRequest);
+		Assert.isTrue(recordList.getSize() > 0, "vets must be positive");
+
 	}
 
 }
