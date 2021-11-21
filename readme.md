@@ -101,6 +101,7 @@ docker tag petclinic-native:latest nabla/petclinic-native:1.0.0
 docker push nabla/petclinic-native:latest
 docker push nabla/petclinic-native:1.0.0
 ```
+See result on https://hub.docker.com/repository/docker/nabla/petclinic-native
 
 ### Helm
 
@@ -111,7 +112,7 @@ helm uninstall --kubeconfig ${HOME}/.kube/config --kube-context microk8s --names
 helm install --kubeconfig ${HOME}/.kube/config --kube-context microk8s --namespace jenkins my-petclinic helm-petclinic-1.0.0.tgz --timeout 5m0s --wait --atomic --devel --replace --dependency-update --set imagePullPolicy=Always
 ```
 
-See result on https://hub.docker.com/repository/docker/nabla/petclinic-native
+See result on https://github.com/AlbanAndrieu/spring-petclinic/releases/tag/helm-petclinic-1.0.0
 
 ## Looking for something in particular?
 
