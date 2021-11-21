@@ -27,7 +27,7 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag nabla/petclinic-native:$(date +%s)
       - name: Tag the Docker image
-        run: docker tag nabla/petclinic-native:latest nabla/petclinic-native:$(date +%s)
+        run: docker tag nabla/petclinic-native:$(date +%s) nabla/petclinic-native:latest
 
       #- name: Run Trivy vulnerability scanner
       #  uses: aquasecurity/trivy-action@master
