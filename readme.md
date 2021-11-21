@@ -35,7 +35,7 @@ Our issue tracker is available here: https://github.com/spring-projects/spring-p
 In its default configuration, Petclinic uses an in-memory database (H2) which
 gets populated at startup with data. The h2 console is automatically exposed at `http://localhost:8080/h2-console`
 and it is possible to inspect the content of the database using the `jdbc:h2:mem:testdb` url.
- 
+
 A similar setup is provided for MySql in case a persistent database configuration is needed. Note that whenever the database type is changed, the app needs to be run with a different profile: `spring.profiles.active=mysql` for MySql.
 
 You could start MySql locally with whatever installer works for your OS, or with docker:
@@ -52,7 +52,7 @@ Further documentation is provided [here](https://github.com/spring-projects/spri
 The following items should be installed in your system:
 * Java 8 or newer (full JDK not a JRE).
 * git command line tool (https://help.github.com/articles/set-up-git)
-* Your preferred IDE 
+* Your preferred IDE
   * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in `Help -> About` dialog. If m2e is
   not there, just follow the install process here: https://www.eclipse.org/m2e/
   * [Spring Tools Suite](https://spring.io/tools) (STS)
@@ -83,6 +83,8 @@ The following items should be installed in your system:
 
     Visit [http://localhost:8080](http://localhost:8080) in your browser.
 
+## k8s
+
 ### Docker
 
 ```shell
@@ -94,8 +96,18 @@ docker run -d -p 8082:8080 petclinic-native
 See result on http://localhost:8082/
 
 ```shell
-docker tag petclinic-native:latest nabla/petclinic-native
+docker tag petclinic-native:latest nabla/petclinic-native:latest
+docker tag petclinic-native:latest nabla/petclinic-native:1.0.0
 docker push nabla/petclinic-native:latest
+docker push nabla/petclinic-native:1.0.0
+```
+
+### Helm
+
+```shell
+helm lint packs/helm-sample/charts/
+helm package ./packs/helm-sample/charts --kubeconfig ${HOME}/.kube/config --kube-context ${HELM_KUBECONTEXT} --namespace ${HELM_NAMESPACE} --version 1.0.0 --app-version 1.0.0 --dependency-update
+helm install --kubeconfig ${HOME}/.kube/config --kube-context ${HELM_KUBECONTEXT} --namespace ${HELM_NAMESPACE} my-develop helm-sample-1.0.0.tgz --timeout 5m0s --wait --atomic --devel --replace --dependency-update --set imagePullPolicy=Always
 ```
 
 See result on https://hub.docker.com/repository/docker/nabla/petclinic-native
@@ -141,7 +153,7 @@ The Spring PetClinic sample application is released under version 2.0 of the [Ap
 
 [spring-petclinic]: https://github.com/spring-projects/spring-petclinic
 [spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
-[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
+[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs
 [javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
 [spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
 [spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices

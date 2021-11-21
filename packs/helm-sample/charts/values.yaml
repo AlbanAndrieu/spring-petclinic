@@ -1,0 +1,107 @@
+# Default values for testChart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+global:
+  storageClassName: local-path
+  registry: p21d13401013001.azurecr.io
+  # See https://kubernetes.io/fr/docs/concepts/containers/images/
+  imagePullPolicy: IfNotPresent
+
+image:
+  repository: nabla/petclinic-native
+  imagePullPolicy: Always
+  tag: latest
+  # tag: "{{ default .Chart.AppVersion latest }}"
+
+imagePullSecrets: []
+#{{- if .Values.global.registrySecret }}
+#imagePullSecrets:
+#  - name: {{ .Values.global.registrySecret }}
+#{{- end }}
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  #{}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  #readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1100
+
+service:
+  #type: ClusterIP
+  #port: 80
+  #http: false
+  #https: true
+  type: NodePort
+  #type: LoadBalancer
+  port: 8080
+  #nodePort: 30037
+
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: helm-sample.devops-fr.devops.misys.global.ad
+      paths: ["/"]
+    - host: helm-sample.treasury-trba1.devops.misys.global.ad
+      paths: ["/old(/|$)(.*)"]
+    - host: chart-example.local
+      paths: ["/one(/|$)(.*)"]
+    - host: chart-example.local
+      paths: ["/two(/|$)(.*)"]
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 2.5
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+#TODO
+#nginx:
+#  enabled: true
+#apache:
+#  enabled: false
+mysql:
+  enabled: true
+
+tags:
+  front-end: false
+  back-end: true
