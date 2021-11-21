@@ -24,3 +24,9 @@ jobs:
           cache: maven
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag nabla/petclinic-native:$(date +%s)
+      - name: Tag the Docker image
+        run: docker tag nabla/petclinic-native:$(date +%s) nabla/petclinic-native:latest
+      - name: Push the Docker image
+        run: docker push nabla/petclinic-native:latest
