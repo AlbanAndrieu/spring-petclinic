@@ -27,6 +27,17 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag nabla/petclinic-native:$(date +%s)
       - name: Tag the Docker image
-        run: docker tag nabla/petclinic-native:$(date +%s) nabla/petclinic-native:latest
+        run: docker tag nabla/petclinic-native:latest nabla/petclinic-native:$(date +%s)
+
+      #- name: Run Trivy vulnerability scanner
+      #  uses: aquasecurity/trivy-action@master
+      #  with:
+      #    image-ref: 'docker.io/nabla/petclinic-native:${{ github.sha }}'
+      #    format: 'table'
+      #    exit-code: '1'
+      #    ignore-unfixed: true
+      #    vuln-type: 'os,library'
+      #    severity: 'CRITICAL,HIGH'
+
       - name: Push the Docker image
         run: docker push nabla/petclinic-native:latest
