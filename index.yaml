@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  helm-petclinic:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-21T17:45:24.198472227Z"
+    description: A Helm petclinic chart for Kubernetes
+    digest: 9d6350eb71ed7b84997d1e780e07d822d9ce06b66ea92830e909c1b08d8f1b29
+    home: https://albandrieu.com/
+    icon: https://albandrieu.com/nabla/index/assets/nabla/nabla-2.png
+    maintainers:
+    - email: alban.andrieu@free.fr
+      name: aandrieu
+    name: helm-petclinic
+    sources:
+    - https://github.com/AlbanAndrieu/spring-petclinic
+    type: application
+    urls:
+    - https://github.com/AlbanAndrieu/spring-petclinic/releases/download/helm-petclinic-1.0.0/helm-petclinic-1.0.0.tgz
+    version: 1.0.0
+generated: "2021-11-21T17:45:24.198477327Z"
