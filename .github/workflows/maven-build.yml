@@ -25,9 +25,11 @@ jobs:
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag nabla/petclinic-native:$(date +%s)
-      - name: Tag the Docker image
-        run: docker tag nabla/petclinic-native:$(date +%s) nabla/petclinic-native:latest
+        run: docker build . --file Dockerfile --tag nabla/petclinic-native:${{ github.sha }}
+      - name: Tag the Docker image to latest
+        run: docker tag nabla/petclinic-native:${{ github.sha }} nabla/petclinic-native:latest
+      - name: Tag the Docker image to date
+        run: docker tag nabla/petclinic-native:${{ github.sha }} nabla/petclinic-native:$(date +%s)
 
       #- name: Run Trivy vulnerability scanner
       #  uses: aquasecurity/trivy-action@master
