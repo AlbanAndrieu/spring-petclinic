@@ -105,9 +105,10 @@ docker push nabla/petclinic-native:1.0.0
 ### Helm
 
 ```shell
-helm lint packs/helm-sample/charts/
-helm package ./packs/helm-sample/charts --kubeconfig ${HOME}/.kube/config --kube-context ${HELM_KUBECONTEXT} --namespace ${HELM_NAMESPACE} --version 1.0.0 --app-version 1.0.0 --dependency-update
-helm install --kubeconfig ${HOME}/.kube/config --kube-context ${HELM_KUBECONTEXT} --namespace ${HELM_NAMESPACE} my-develop helm-sample-1.0.0.tgz --timeout 5m0s --wait --atomic --devel --replace --dependency-update --set imagePullPolicy=Always
+helm lint packs/helm-petclinic/charts/
+helm package ./packs/helm-petclinic/charts --kubeconfig ${HOME}/.kube/config --kube-context microk8s --namespace nabla-standalone-aandrieu --version 1.0.0 --app-version 1.0.0 --dependency-update
+helm uninstall --kubeconfig ${HOME}/.kube/config --kube-context microk8s --namespace jenkins my-petclinic helm-petclinic-1.0.0.tgz
+helm install --kubeconfig ${HOME}/.kube/config --kube-context microk8s --namespace jenkins my-petclinic helm-petclinic-1.0.0.tgz --timeout 5m0s --wait --atomic --devel --replace --dependency-update --set imagePullPolicy=Always
 ```
 
 See result on https://hub.docker.com/repository/docker/nabla/petclinic-native

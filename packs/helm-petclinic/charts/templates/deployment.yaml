@@ -40,46 +40,40 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       shareProcessNamespace: true
-      initContainers:
-        - name: sleep
-          image: debian:stretch
-          imagePullPolicy: Always
-          command:
-            - sh
-            - -c
-            - 'echo "create by init-container" > /secrets/file'
-          volumeMounts:
-            - mountPath: /secrets
-              name: shared
+      #initContainers:
+      #  - name: sleep
+      #    image: debian:stretch
+      #    imagePullPolicy: Always
+      #    command:
+      #      - sh
+      #      - -c
+      #      - 'echo "create by init-container" > /secrets/file'
+      #    volumeMounts:
+      #      - mountPath: /secrets
+      #        name: shared
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           env:
-          - name: JETTY_TMP
-            value: '/home/jenkins/'
-          - name: JETTY_BASE
-            value: '/home/jenkins/'
-          - name: JETTY_HOME
-            value: '/home/jenkins/home/'
           - name: TITLE
             value: "Welcome to Azure Kubernetes Service (AKS)"
-          image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.image.tag .Chart.AppVersion  }}"
-          #command: ["java", "-Djava.io.tmpdir=/home/jenkins/", "-Djetty.base=/var/lib/jetty", "-jar", "/home/jenkins/jetty-runner.jar", "/home/jenkins/test.war"]
-          command: ["java", "-Djava.io.tmpdir=/home/jenkins/", "-jar", "/home/jenkins/jetty-runner.jar", "/home/jenkins/test.war"]
+          image: "{{ .Values.image.repository }}:{{ default .Values.image.tag .Chart.AppVersion  }}"
+          command: ["java", "-Djava.io.tmpdir=/tmp/", "-jar", "/app.jar",]
+          #command: ["java", "-Djava.io.tmpdir=/tmp/", "-jar", "/app.jar",]
           #args: ["--version"]
           #imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-          terminationMessagePath: "/tmp/my-log"
+          #terminationMessagePath: "/tmp/my-log"
           ports:
             - name: http
               #containerPort: 80
               containerPort: 8080
-              hostPort: 8080
+              hostPort: 8082
               protocol: TCP
           # See https://kubernetes.io/fr/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
           readinessProbe:
             httpGet:
-              path: /#/
+              path: /
               port: http
             #tcpSocket:
             #  port: 8080
@@ -89,7 +83,7 @@ spec:
             failureThreshold: 12 # ~2 minutes
           livenessProbe:
             httpGet:
-              path: /#/
+              path: /
               port: http
             #tcpSocket:
             #  port: 8080
@@ -97,9 +91,9 @@ spec:
             periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-            - mountPath: /secrets
-              name: shared
+          #volumeMounts:
+          #  - mountPath: /secrets
+          #    name: shared
         - name: shell
           image: busybox
           securityContext:

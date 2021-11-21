@@ -1,5 +1,5 @@
 apiVersion: v2
-name: helm-sample
+name: helm-petclinic
 icon: https://albandrieu.com/nabla/index/assets/nabla/nabla-2.png
 home: https://albandrieu.com/
 description: A Helm petclinic chart for Kubernetes
